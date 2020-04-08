@@ -13,17 +13,18 @@ class ViewController: UIViewController {
         print("The class \(type(of: self)) was remove from memory")
     }
     
-    @IBAction func onSearchClick(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction func onLocationClick(_ sender: UIButton) {
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("WelcomeView did load")
+        weatherManager.weatherDelegate = self
+    }
+    
+    @IBAction func onSearchClick(_ sender: UIButton) {
+        weatherManager.getWeather(city: tfSearch.text!)
+        tfSearch.endEditing(true)
+    }
+    
+    @IBAction func onLocationClick(_ sender: UIButton) {
         
     }
     
@@ -50,7 +51,19 @@ class ViewController: UIViewController {
 
 }
 
-
+extension ViewController:WeatherDelegate{
+    func onWeatherResult(weather: WeatherModel) {
+        ivIcon.image = UIImage(named: weather.iconString)
+        lbTemp.text = weather.tempString
+        lbCity.text = weather.cityName
+    }
+    
+    func onWeatherError(error: Error) {
+        print(error)
+    }
+    
+    
+}
 
 
 

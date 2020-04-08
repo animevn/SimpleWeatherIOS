@@ -16,6 +16,7 @@ class GetLocation:NSObject, CLLocationManagerDelegate{
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
         locationManager.startUpdatingLocation()
+        print("location start")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -28,6 +29,7 @@ class GetLocation:NSObject, CLLocationManagerDelegate{
             self?.locationDelegate?
                 .onLocationResult(coord: Coord(lat: location.latitude, lon: location.longitude))
             self?.locationManager.stopUpdatingLocation()
+            print("location stop")
         }
     }
 }

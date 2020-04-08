@@ -1,8 +1,8 @@
 import Foundation
 
 protocol WeatherDelegate {
-    func onWeatherResult(weather:WeatherModel?)
-    func onWeatherError(error:Error?)
+    func onWeatherResult(weather:WeatherModel)
+    func onWeatherError(error:Error)
 }
 
 struct WeatherManager{
@@ -14,11 +14,15 @@ struct WeatherManager{
     
     private func parse(data:Data?, response:URLResponse?, error:Error?)->WeatherModel?{
         if error != nil{
-            weatherDelegate?.onWeatherError(error: error)
+            weatherDelegate?.onWeatherError(error: error!)
             return nil
         }
         
-        guard let data = data else {return nil}
+        guard let data = data else {
+            print("error data")
+            return nil
+            
+        }
         do{
             let weatherData = try JSONDecoder().decode(WeatherData.self, from: data)
             let id = weatherData.weather[0].id
@@ -26,15 +30,23 @@ struct WeatherManager{
             let city = weatherData.name
             return WeatherModel(iconId: id, cityName: city, temp: temp)
         }catch{
+            weatherDelegate?.onWeatherError(error: error)
             return nil
+            
         }
     }
     
     private func performRequest(urlString:String){
-        guard let url = URL(string: urlString) else {return}
+        guard let url = URL(string: urlString) else {
+            print("enter sth else")
+            return
+        }
+        
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url){(data, response, error) in
-            let weatherModel = self.parse(data: data, response: response, error: error)
+            guard let weatherModel = self.parse(data: data, response: response, error: error) else{
+                return
+            }
             DispatchQueue.main.async {
                 self.weatherDelegate?.onWeatherResult(weather: weatherModel)
             }

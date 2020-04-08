@@ -11,8 +11,8 @@
         <!--View Controller-->
         <scene sceneID="F7A-uc-uVN">
             <objects>
-                <viewController id="GJO-Ro-XwC" customClass="ViewController" customModule="SimpleWeather" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Hoc-rG-Q6I" customClass="viewcontr">
+                <viewController id="GJO-Ro-XwC" customClass="ViewController" customModule="SimpleWeather" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Hoc-rG-Q6I" userLabel="view">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
