@@ -9,6 +9,23 @@ class ViewController: UIViewController {
     
     private var weatherManager = WeatherManager()
     
+    private func updateWeather(text:String){
+        weatherManager.update(url: text){weatherModel in
+            self.ivIcon.image = UIImage(named: weatherModel.iconString)
+            self.lbTemp.text = weatherModel.tempString
+            self.lbCity.text = weatherModel.cityName
+        }
+    }
+    
+    private func updateWeather(){
+        weatherManager.update{
+            weatherModel in
+            self.ivIcon.image = UIImage(named: weatherModel.iconString)
+            self.lbTemp.text = weatherModel.tempString
+            self.lbCity.text = weatherModel.cityName
+        }
+    }
+    
     deinit {
         print("The class \(type(of: self)) was remove from memory")
     }
@@ -17,9 +34,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print("WelcomeView did load")
         tfSearch.delegate = self
-        
+        updateWeather()
         //should set content type for text field or will break constraints
-        tfSearch.becomeFirstResponder()
+//        tfSearch.becomeFirstResponder()
     }
     
     @IBAction func onSearchClick(_ sender: UIButton) {
@@ -27,17 +44,14 @@ class ViewController: UIViewController {
         if text.count == 0 {
             tfSearch.placeholder = "Please enter your place"
         }else{
-            weatherManager.update(url: text){weatherModel in
-                self.ivIcon.image = UIImage(named: weatherModel.iconString)
-                self.lbTemp.text = weatherModel.tempString
-                self.lbCity.text = weatherModel.cityName
-            }
+            updateWeather(text: text)
             tfSearch.endEditing(true)
         }
         
     }
     
     @IBAction func onLocationClick(_ sender: UIButton) {
+        updateWeather()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,11 +82,7 @@ extension ViewController:UITextFieldDelegate{
     //update this when user press return (enter) button
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.text!.count > 0 {
-            weatherManager.update(url: textField.text!){weatherModel in
-                self.ivIcon.image = UIImage(named: weatherModel.iconString)
-                self.lbTemp.text = weatherModel.tempString
-                self.lbCity.text = weatherModel.cityName
-            }
+            updateWeather(text: textField.text!)
             textField.endEditing(true)
         }
         return true

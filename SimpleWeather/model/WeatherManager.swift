@@ -15,7 +15,8 @@ struct WeatherManager{
     }
     
     mutating func update(url:String, update:@escaping (WeatherModel)->Void){
-        GetWeather().getWeather(city: url){weatherModel in
+        let trim = url.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        GetWeather().getWeather(city: trim){weatherModel in
             DispatchQueue.main.async {
                 update(weatherModel)
             }
