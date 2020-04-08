@@ -1,38 +1,35 @@
 import CoreLocation
 
-protocol LocationDelegate:class {
-    func onLocationResult(coord:Coord)
-    func onLocationError(error:Error?)
-}
-
 class GetLocation:NSObject, CLLocationManagerDelegate{
     
     private var locationManager:CLLocationManager = CLLocationManager()
-    weak var locationDelegate:LocationDelegate?
+    var coord: (Coord)->Void
     
-    override init() {
+    init(coord:@escaping (Coord)->Void) {
+        self.coord = coord
         super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
-        
-    }
-    
-    func startUpdate(){
         locationManager.startUpdatingLocation()
         print("location start")
     }
     
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        locationDelegate?.onLocationError(error: error)
+       print(error)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
         guard let location = locations.last?.coordinate else {return}
-        locationDelegate?
-            .onLocationResult(coord: Coord(lat: location.latitude, lon: location.longitude))
-        locationManager.stopUpdatingLocation()
-        print("location stop")
+        
+        DispatchQueue.main.async {
+            self.coord(Coord(lat: location.latitude, lon: location.longitude))
+            self.locationManager.stopUpdatingLocation()
+            print("location stop")
+        }
+        
+        
     }
 }
 
