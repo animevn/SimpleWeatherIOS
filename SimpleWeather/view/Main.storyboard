@@ -11,8 +11,8 @@
         <!--View Controller-->
         <scene sceneID="F7A-uc-uVN">
             <objects>
-                <viewController id="GJO-Ro-XwC" customClass="ViewController" customModule="SimpleWeather" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Hoc-rG-Q6I" userLabel="view">
+                <viewController id="GJO-Ro-XwC" customClass="ViewController" customModule="SimpleWeather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Hoc-rG-Q6I">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -39,10 +39,10 @@
                                                     <action selector="onLocationClick:" destination="GJO-Ro-XwC" eventType="touchUpInside" id="Ph3-oj-D6n"/>
                                                 </connections>
                                             </button>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RRt-pg-XcJ">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Location" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RRt-pg-XcJ">
                                                 <rect key="frame" x="55" y="0.0" width="225" height="45"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                <textInputTraits key="textInputTraits" textContentType="location"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggs-tr-oaY">
                                                 <rect key="frame" x="290" y="0.0" width="45" height="45"/>

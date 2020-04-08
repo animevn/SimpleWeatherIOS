@@ -17,13 +17,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("WelcomeView did load")
+        tfSearch.delegate = self
+        
+        //should set content type for text field or will break constraints
+        tfSearch.becomeFirstResponder()
         weatherManager.weatherDelegate = self
         getLocation.locationDelegate = self
     }
     
     @IBAction func onSearchClick(_ sender: UIButton) {
-        weatherManager.getWeather(city: tfSearch.text!)
-        tfSearch.endEditing(true)
+        guard let text = tfSearch.text else {return}
+        if text.count == 0 {
+            tfSearch.placeholder = "Please enter your place"
+        }else{
+            weatherManager.getWeather(city: text)
+            tfSearch.endEditing(true)
+        }
+        
     }
     
     @IBAction func onLocationClick(_ sender: UIButton) {
@@ -77,7 +87,34 @@ extension ViewController:LocationDelegate{
     }
 }
 
-
+extension ViewController:UITextFieldDelegate{
+    
+    //update this when user press return (enter) button
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.text!.count > 0 {
+            weatherManager.getWeather(city: textField.text!)
+            textField.endEditing(true)
+        }
+        return true
+    }
+    
+    //only allow pressing return when text length > 0
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.text != "" {
+            return true
+        }else{
+            textField.placeholder = "Please enter your place"
+            return false
+        }
+    }
+    
+    //back to defaul search text after searching
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.text = ""
+        textField.placeholder = "Search Location"
+    }
+    
+}
 
 
 
