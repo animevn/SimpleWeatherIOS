@@ -2,13 +2,29 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var tfSearch: UITextField!
+    @IBOutlet weak var ivIcon: UIImageView!
+    @IBOutlet weak var lbTemp: UILabel!
+    @IBOutlet weak var lbCity: UILabel!
+    
+    private var weatherManager = WeatherManager()
+    
     deinit {
         print("The class \(type(of: self)) was remove from memory")
+    }
+    
+    @IBAction func onSearchClick(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func onLocationClick(_ sender: UIButton) {
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("WelcomeView did load")
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,4 +49,16 @@ class ViewController: UIViewController {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

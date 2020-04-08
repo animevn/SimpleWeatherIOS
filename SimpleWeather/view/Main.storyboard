@@ -35,6 +35,9 @@
                                                 <state key="normal" backgroundImage="location">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onLocationClick:" destination="GJO-Ro-XwC" eventType="touchUpInside" id="Ph3-oj-D6n"/>
+                                                </connections>
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RRt-pg-XcJ">
                                                 <rect key="frame" x="55" y="0.0" width="225" height="45"/>
@@ -51,6 +54,9 @@
                                                 <state key="normal" backgroundImage="search">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onSearchClick:" destination="GJO-Ro-XwC" eventType="touchUpInside" id="9R0-Wd-SFr"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -114,6 +120,12 @@ Unicode: U+00B0, UTF-8: C2 B0</string>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Mn2-jL-kqV"/>
                     </view>
+                    <connections>
+                        <outlet property="ivIcon" destination="TPe-SH-bec" id="dRL-iH-k61"/>
+                        <outlet property="lbCity" destination="hA7-VN-xe3" id="3FC-eM-oNf"/>
+                        <outlet property="lbTemp" destination="J6a-vz-kYc" id="mvw-N9-eWD"/>
+                        <outlet property="tfSearch" destination="RRt-pg-XcJ" id="Z6i-GZ-7oB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xFm-wQ-3Xg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
