@@ -8,13 +8,17 @@ protocol LocationDelegate {
 class GetLocation:NSObject, CLLocationManagerDelegate{
     
     private var locationManager:CLLocationManager = CLLocationManager()
-    private var locationDelegate:LocationDelegate?
+    var locationDelegate:LocationDelegate?
     
     override init() {
         super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
+        
+    }
+    
+    func startUpdate(){
         locationManager.startUpdatingLocation()
         print("location start")
     }
@@ -29,6 +33,7 @@ class GetLocation:NSObject, CLLocationManagerDelegate{
             self?.locationDelegate?
                 .onLocationResult(coord: Coord(lat: location.latitude, lon: location.longitude))
             self?.locationManager.stopUpdatingLocation()
+            print(location.latitude)
             print("location stop")
         }
     }

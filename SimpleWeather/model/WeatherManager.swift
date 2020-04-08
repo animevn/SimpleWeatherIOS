@@ -5,12 +5,17 @@ protocol WeatherDelegate {
     func onWeatherError(error:Error)
 }
 
-struct WeatherManager{
+struct WeatherManager:LocationDelegate{
     
     let appid = "1a9dc82f0a3a7e535acb3ac84407ad81"
     let url = "https://api.openweathermap.org/data/2.5/weather?appid="
     var weatherDelegate:WeatherDelegate?
-    var getLocation:GetLocation?
+    private var getLocation:GetLocation
+    
+    init() {
+        getLocation = GetLocation()
+        getLocation.locationDelegate = self
+    }
     
     private func parse(data:Data?, response:URLResponse?, error:Error?)->WeatherModel?{
         if error != nil{
@@ -59,7 +64,20 @@ struct WeatherManager{
         performRequest(urlString: urlString)
     }
     
+    func getWeather(){
+        getLocation.startUpdate()
+    }
     
+    func onLocationResult(coord: Coord) {
+        let urlString = url + appid + "&units=metric&lat=\(coord.lat)&lon=\(coord.lon)"
+        performRequest(urlString: urlString)
+    }
+    
+    func onLocationError(error: Error?) {
+        if error != nil {
+            print(error!)
+        }
+    }
     
     
     

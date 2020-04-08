@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onLocationClick(_ sender: UIButton) {
-        
+        weatherManager.getWeather()
     }
     
     override func viewWillAppear(_ animated: Bool) {
