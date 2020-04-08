@@ -56,7 +56,6 @@ class ViewController: UIViewController {
 extension ViewController:WeatherDelegate{
     
     func onWeatherResult(weather: WeatherModel) {
-        print("update")
         ivIcon.image = UIImage(named: weather.iconString)
         lbTemp.text = weather.tempString
         lbCity.text = weather.cityName

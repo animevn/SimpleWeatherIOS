@@ -53,7 +53,6 @@ struct WeatherManager{
             }
             DispatchQueue.main.async {
                 self.weatherDelegate?.onWeatherResult(weather: weatherModel)
-                print(weatherModel.cityName)
             }
         }
         task.resume()
