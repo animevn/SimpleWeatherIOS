@@ -8,6 +8,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var lbCity: UILabel!
     
     private var weatherManager = WeatherManager()
+    private var getLocation = GetLocation()
     
     deinit {
         print("The class \(type(of: self)) was remove from memory")
@@ -17,6 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print("WelcomeView did load")
         weatherManager.weatherDelegate = self
+        getLocation.locationDelegate = self
     }
     
     @IBAction func onSearchClick(_ sender: UIButton) {
@@ -25,7 +27,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onLocationClick(_ sender: UIButton) {
-        weatherManager.getWeather()
+        getLocation.startUpdate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +54,9 @@ class ViewController: UIViewController {
 }
 
 extension ViewController:WeatherDelegate{
+    
     func onWeatherResult(weather: WeatherModel) {
+        print("update")
         ivIcon.image = UIImage(named: weather.iconString)
         lbTemp.text = weather.tempString
         lbCity.text = weather.cityName
@@ -62,12 +66,17 @@ extension ViewController:WeatherDelegate{
         print(error)
     }
     
-    
 }
 
-
-
-
+extension ViewController:LocationDelegate{
+    func onLocationResult(coord: Coord) {
+        weatherManager.getWeather(coord: coord)
+    }
+    
+    func onLocationError(error: Error?) {
+        print("error")
+    }
+}
 
 
 

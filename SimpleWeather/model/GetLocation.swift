@@ -1,6 +1,6 @@
 import CoreLocation
 
-protocol LocationDelegate {
+protocol LocationDelegate:class {
     func onLocationResult(coord:Coord)
     func onLocationError(error:Error?)
 }
@@ -8,7 +8,7 @@ protocol LocationDelegate {
 class GetLocation:NSObject, CLLocationManagerDelegate{
     
     private var locationManager:CLLocationManager = CLLocationManager()
-    var locationDelegate:LocationDelegate?
+    weak var locationDelegate:LocationDelegate?
     
     override init() {
         super.init()
@@ -29,13 +29,10 @@ class GetLocation:NSObject, CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
         guard let location = locations.last?.coordinate else {return}
-        DispatchQueue.main.async {[weak self] in
-            self?.locationDelegate?
-                .onLocationResult(coord: Coord(lat: location.latitude, lon: location.longitude))
-            self?.locationManager.stopUpdatingLocation()
-            print(location.latitude)
-            print("location stop")
-        }
+        locationDelegate?
+            .onLocationResult(coord: Coord(lat: location.latitude, lon: location.longitude))
+        locationManager.stopUpdatingLocation()
+        print("location stop")
     }
 }
 

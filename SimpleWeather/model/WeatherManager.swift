@@ -1,21 +1,21 @@
 import Foundation
 
-protocol WeatherDelegate {
+protocol WeatherDelegate:class{
     func onWeatherResult(weather:WeatherModel)
     func onWeatherError(error:Error)
 }
 
-struct WeatherManager:LocationDelegate{
+struct WeatherManager{
     
     let appid = "1a9dc82f0a3a7e535acb3ac84407ad81"
     let url = "https://api.openweathermap.org/data/2.5/weather?appid="
-    var weatherDelegate:WeatherDelegate?
-    private var getLocation:GetLocation
-    
-    init() {
-        getLocation = GetLocation()
-        getLocation.locationDelegate = self
-    }
+    weak var weatherDelegate:WeatherDelegate?
+//    private var getLocation:GetLocation
+//    
+//    init() {
+//        getLocation = GetLocation()
+//        getLocation.locationDelegate = self
+//    }
     
     private func parse(data:Data?, response:URLResponse?, error:Error?)->WeatherModel?{
         if error != nil{
@@ -37,7 +37,6 @@ struct WeatherManager:LocationDelegate{
         }catch{
             weatherDelegate?.onWeatherError(error: error)
             return nil
-            
         }
     }
     
@@ -54,6 +53,7 @@ struct WeatherManager:LocationDelegate{
             }
             DispatchQueue.main.async {
                 self.weatherDelegate?.onWeatherResult(weather: weatherModel)
+                print(weatherModel.cityName)
             }
         }
         task.resume()
@@ -64,20 +64,21 @@ struct WeatherManager:LocationDelegate{
         performRequest(urlString: urlString)
     }
     
-    func getWeather(){
-        getLocation.startUpdate()
-    }
-    
-    func onLocationResult(coord: Coord) {
+    func getWeather(coord:Coord){
         let urlString = url + appid + "&units=metric&lat=\(coord.lat)&lon=\(coord.lon)"
         performRequest(urlString: urlString)
     }
     
-    func onLocationError(error: Error?) {
-        if error != nil {
-            print(error!)
-        }
-    }
+//    func onLocationResult(coord: Coord) {
+//        let urlString = url + appid + "&units=metric&lat=\(coord.lat)&lon=\(coord.lon)"
+//        performRequest(urlString: urlString)
+//    }
+//
+//    func onLocationError(error: Error?) {
+//        if error != nil {
+//            print(error!)
+//        }
+//    }
     
     
     
